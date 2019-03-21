@@ -8,10 +8,7 @@
 import Home from './components/Home.vue'
 
 export default {
-  name: 'app',
-  components: {
-    'v-home': Home
-  }
+  name: 'app'
 }
 </script>
 

@@ -1,5 +1,5 @@
 import getV from 'get-ov';
-import store from '@/store';
+// import store from '@/store';
 
 export default function reqMid(data){
     const code = Number(getV(data)('code'));
