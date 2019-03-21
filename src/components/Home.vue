@@ -1,60 +1,62 @@
 <template>
   <div class="Home">
-    <a-form
-      :layout="formLayout"
-      :form="form"
-      @submit="handleSubmit"
-    >
-      <a-form-item
-        label="ip地址"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 12 }"
+    <div class="box">
+      <a-form
+        :layout="formLayout"
+        :form="form"
+        @submit="handleSubmit"
       >
-        <a-input
-          placeholder="如 127.0.0.1"
-          v-decorator="[
-            'ip',
-            {rules: [{ required: true, message: '请输入ip地址' }]}
-          ]"
-        />
-      </a-form-item>
-      <a-form-item
-        label="行情端口号"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 12 }"
-      >
-        <a-input
-          placeholder="如 8000"
-          v-decorator="[
-            'port1',
-            {rules: [{ required: true, message: '请输入行情端口号' }]}
-          ]"
-        />
-      </a-form-item>
-      <a-form-item
-        label="订阅端口号"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 12 }"
-      >
-        <a-input
-          placeholder="如 8000"
-          v-decorator="[
-            'port2',
-            {rules: [{ required: true, message: '请输入订阅端口号' }]}
-          ]"
-        />
-      </a-form-item>
-      <a-form-item
-        :wrapper-col="{ span: 12, offset: 5 }"
-      >
-        <a-button
-          type="primary"
-          html-type="submit"
+        <a-form-item
+          label="ip地址"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
         >
-          提交
-        </a-button>
-      </a-form-item>
-    </a-form>
+          <a-input
+            placeholder="如 127.0.0.1"
+            v-decorator="[
+              'ip',
+              {rules: [{ required: true, message: '请输入ip地址' }]}
+            ]"
+          />
+        </a-form-item>
+        <a-form-item
+          label="行情端口号"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            placeholder="如 8000"
+            v-decorator="[
+              'port1',
+              {rules: [{ required: true, message: '请输入行情端口号' }]}
+            ]"
+          />
+        </a-form-item>
+        <a-form-item
+          label="订阅端口号"
+          :label-col="{ span: 5 }"
+          :wrapper-col="{ span: 12 }"
+        >
+          <a-input
+            placeholder="如 8000"
+            v-decorator="[
+              'port2',
+              {rules: [{ required: true, message: '请输入订阅端口号' }]}
+            ]"
+          />
+        </a-form-item>
+        <a-form-item
+          :wrapper-col="{ span: 12, offset: 5 }"
+        >
+          <a-button
+            type="primary"
+            html-type="submit"
+          >
+            提交
+          </a-button>
+        </a-form-item>
+      </a-form>
+    </div>
   </div>
 </template>
 
@@ -120,7 +122,12 @@ export default {
 <style scoped>
   .Home {
     width: 100%;
-    padding-top: 50px;
+    height: 100%;
+    padding-top: 100px;
+  }
+  .box {
+    width: 600px;
+    margin: auto;
   }
 </style>
 
