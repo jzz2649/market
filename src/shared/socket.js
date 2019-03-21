@@ -29,11 +29,11 @@ export default class Socket{
         const callback = this.listener[evt.type];
         if(callback) callback(evt.data);
     }
-    onOpen(evt){
+    onOpen(){
         this.connectState = 1;
         this.emit({type:'open'})
     }
-    onClose(evt){
+    onClose(){
         this.connectState = -1;
     }
     onMessage(data){
@@ -69,7 +69,7 @@ export default class Socket{
         this.loop = false;
         this.ws = null;
     }
-    onError(evt){
+    onError(){
         this.connectState = -1;
     }
 }
