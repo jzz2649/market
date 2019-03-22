@@ -6,7 +6,7 @@
         <div class="list-content">
             <div @click="handleClick(index, item)" v-for="(item, index) in list" :key="item.key">
                 <a-row class="list-item" :class="{active:item.key===checkKey}">
-                    <a-col :span="10">{{item.name}}</a-col>
+                    <a-col :span="10">{{item.name+item.contractNo}}</a-col>
                     <a-col :span="8"><span :class="{red:item.rise>0,green:item.rise<0}">{{toShow(item.last>0?item.fixLast:'--')}}</span></a-col>
                     <a-col :span="6"><span :class="{red:item.rise>0,green:item.rise<0}">{{toShow(item.fixRise)}}</span></a-col>
                 </a-row>

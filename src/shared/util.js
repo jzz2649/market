@@ -52,7 +52,7 @@ function jsonParse(str){
 
 //转成订阅的数据
 
-const SunInstance = new proto.quotation.api.SubQuoteDetailRequest();
+const SunInstance = new window.proto.quotation.api.SubQuoteDetailRequest();
 
 function toSubData(item){
     SunInstance.setExchangeno(item.exchangeNo);
@@ -65,7 +65,7 @@ function toSubData(item){
 
 //转换成kline查询数据
 //转换为protot数据
-const protoKline = new proto.quotation.api.GetKLineRequest();
+const protoKline = new window.proto.quotation.api.GetKLineRequest();
 /**
  * 查询kline数据
  * @param {Object} item 行情基础数据
@@ -89,9 +89,9 @@ function toSearchKline(item, klineType , start,end){
 }
 
 //转成快照 proto
-const SnapInstance = new proto.quotation.api.GetSnapshotRequest();
+const SnapInstance = new window.proto.quotation.api.GetSnapshotRequest();
 function toSnapData(item){
-    const ContractKey = new proto.quotation.api.ContractKey();
+    const ContractKey = new window.proto.quotation.api.ContractKey();
     ContractKey.setExchangeno(item.exchangeNo);
     ContractKey.setCommodityno(item.commodityNo);
     ContractKey.setCommoditytype(item.commodityType);
@@ -227,20 +227,20 @@ function compose(...funcs) {
 // }
 
 //序列化proto数据
-const deserializeBinaryExchange = proto.quotation.api.ListExchangeResponse.deserializeBinary;
-const deserializeBinaryCommodity = proto.quotation.api.ListCommodityResponse.deserializeBinary;
-const deserializeBinaryContract = proto.quotation.api.ListContractResponse.deserializeBinary;
-const deserializeBinarySubData = proto.quotation.api.SubQuoteDetailResponse.deserializeBinary;
-const deserializeBinarySnapData = proto.quotation.api.GetSnapshotResponse.deserializeBinary;
-const deserializeBinaryKline = proto.quotation.api.GetKLineResponse.deserializeBinary;
+const deserializeBinaryExchange = window.proto.quotation.api.ListExchangeResponse.deserializeBinary;
+const deserializeBinaryCommodity = window.proto.quotation.api.ListCommodityResponse.deserializeBinary;
+const deserializeBinaryContract = window.proto.quotation.api.ListContractResponse.deserializeBinary;
+const deserializeBinarySubData = window.proto.quotation.api.SubQuoteDetailResponse.deserializeBinary;
+const deserializeBinarySnapData = window.proto.quotation.api.GetSnapshotResponse.deserializeBinary;
+const deserializeBinaryKline = window.proto.quotation.api.GetKLineResponse.deserializeBinary;
 
 //时间戳转为string
 function formatDate(timestamp, type){
+    type = type || 'YY-MM-DD hh:mm:ss';
     var year, month, day, hours, minute, second, d, t;
-    var type = type || 'YY-MM-DD hh:mm:ss';
     var date = new Date(timestamp||null);
     var fill = function (s, v, l){
-        var _l = l - v.length,
+        var _l = l - v.length;
             _l = _l > 0 ? _l : 0;
         return s.repeat(_l) + v.slice(0, l);
     }

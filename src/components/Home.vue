@@ -7,19 +7,6 @@
         @submit="handleSubmit"
       >
         <a-form-item
-          label="getway地址"
-          :label-col="{ span: 5 }"
-          :wrapper-col="{ span: 12 }"
-        >
-          <a-input
-            placeholder="如 demo.com"
-            v-decorator="[
-              'getway',
-              {rules: [{ required: true, message: '请输入getway地址' }]}
-            ]"
-          />
-        </a-form-item>
-        <a-form-item
           label="ip地址"
           :label-col="{ span: 5 }"
           :wrapper-col="{ span: 12 }"
@@ -89,19 +76,13 @@ export default {
     ...mapGetters([
       'ip',
       'port1',
-      'port2',
-      'getway'
+      'port2'
     ])
   },
   mounted(){
     if(isDef(this.ip)){
       this.form.setFieldsValue({
         ip:this.ip
-      })
-    }
-    if(isDef(this.getway)){
-      this.form.setFieldsValue({
-        getway:this.getway
       })
     }
     if(isDef(this.port1)){
@@ -116,21 +97,19 @@ export default {
     }
   },
   methods:{
-    ...mapMutations(['updateIp','updatePort1','updatePort2', 'updateGetway']),
+    ...mapMutations(['updateIp','updatePort1','updatePort2']),
     handleSubmit(e){
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          const { ip, port1, port2, getway } = values;
+          const { ip, port1, port2 } = values;
           this.updateIp(ip);
-          this.updateGetway(getway);
           this.updatePort1(port1);
           this.updatePort2(port2);
           updateUrl({
             ip,
             port1,
-            port2,
-            host:getway
+            port2
           })
           this.$router.push('/market');
         }

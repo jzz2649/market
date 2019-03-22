@@ -29,7 +29,6 @@ import {
 import {
   getCommodityData,
   getContractData,
-  getExchangeInfo,
   getSnapshot
 } from "@/shared/request";
 
@@ -45,8 +44,7 @@ export default {
     ...mapGetters([
       'ip',
       'port1',
-      'port2',
-      'getway'
+      'port2'
     ])
   },
   data() {
@@ -62,15 +60,14 @@ export default {
     this.cacheInfo = Object.create(null);
   },
   mounted() {
-    if(isUndef(this.ip)||isUndef(this.port1)||isUndef(this.port2)||isUndef(this.getway)){
+    if(isUndef(this.ip)||isUndef(this.port1)||isUndef(this.port2)){
         this.$router.replace('/');
         return;
     }
     updateUrl({
         ip: this.ip,
         port1: this.port1,
-        port2: this.port2,
-        host: this.getway
+        port2: this.port2
     })
     this.socket = new Socket({
         url: reqUrl.WS_URL
@@ -123,14 +120,12 @@ export default {
     Promise.all([
       getCommodityData(),
       //合约列表
-      getContractData(),
-      getExchangeInfo()
+      getContractData()
     ]).then(data => {
       let checkKey = ""; //选中的key
       const set = {};
-      const set1 = {};
       const showList = [];
-      const list = data[2].slice(0);
+      const list = [];
       for (let item of data[0]) {
         const key = item.exchangeNo + "-" + item.commodityNo;
         set[key] = {
@@ -142,23 +137,17 @@ export default {
       }
       for (let item of data[1]) {
         const key = item.exchangeNo + "-" + item.commodityNo;
-        set1[key] = item.contractNos;
-      }
-      for (let i = list.length - 1; i >= 0; i--) {
-        const item = list[i];
-        const key = item.marketName + "-" + item.kindCode;
-        const codes = set1[key]||[];
-        const code = item.contractCode;
-        const curData = set[key];
-        if (codes.includes(code)) {
-          list[i] = Object.assign({}, item, {
-            commodityName: curData.name,
-            commodityType: curData.type,
-            mpc: curData.mpc,
-            tradingContinous: curData.tradingContinous
-          });
-        } else {
-          list.splice(i, 1);
+        const obj = set[key];
+        for(let contractNo of item.contractNos){
+          list.push({
+            marketName:item.exchangeNo,
+            kindCode:item.commodityNo,
+            contractCode:contractNo,
+            commodityName: obj.name,
+            commodityType: obj.type,
+            mpc: obj.mpc,
+            tradingContinous: obj.tradingContinous
+          })
         }
       }
       this.infoListLength = list.length;
@@ -348,7 +337,7 @@ export default {
   min-width: 1200px;
 }
 .main-market {
-  flex: 0 0 300px;
+  flex: 0 0 320px;
   color: #ddd;
 }
 .main-kline {

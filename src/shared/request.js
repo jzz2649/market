@@ -1,8 +1,6 @@
 import axios from 'axios';
-import getV from 'get-ov';
 import { reqUrl } from './url';
-import reqMid from "@/shared/reqMid";
-import { jsonParse, toSearchKline, toFixN, isDef, compose } from './util';
+import { toSearchKline, toFixN, isDef } from './util';
 import {
     arrayBufferToBase64,
     base64ToArrayBuffer,
@@ -195,135 +193,13 @@ function getKlineData(item, klineType, start ,end, mpc) {
     })
 }
 
-// ===交易===
-
-function handleRes(data) {
-    if (data.code === 200) {
-        return data.data;
-    }
-    return Promise.reject(data.message);
-}
-
-const handleMidRes = compose(handleRes, handleMid);
-const hadleMid2 = compose(reqMid, handleMid);
-const hadleMid2Res = compose(handleRes, hadleMid2);
-
-//获取交易数据
-function getExchangeInfo() {
-    return axios.post(reqUrl.instrumentinfo, {}).then(handleMidRes).then(data => {
-        const obj = jsonParse(data);
-        const list = getV(obj)('queryTradeContractMap');
-        return list;
-    })
-}
-//查询市场
-function getMarketInfo() {
-    return axios.post(reqUrl.marketinfo, {}).then(handleMidRes).then(data => {
-        const obj = jsonParse(data);
-        const list = getV(obj)('queryMarketMap');
-        return list;
-    })
-}
-//查询品种
-function getProductInfo() {
-    return axios.post(reqUrl.productinfo, {}).then(handleMidRes).then(data => {
-        const obj = jsonParse(data);
-        const list = getV(obj)('queryTradeKindMap');
-        return list;
-    })
-}
-
-//获取验证码
-function getCode(){
-    return axios.get(reqUrl.get_code+'?'+Date.now(),{
-        responseType: "blob",
-        withCredentials: true
-    }).then(handleMid);
-}
-
-//登陆
-function reqLogin(data){
-    return axios.post(reqUrl.get_login, data, {
-        withCredentials: true
-    }).then(handleMid);
-}
-
-//获取委托记录
-function getEntrust(data){
-    return axios.get(reqUrl.get_entrust+'/'+data.assetId,{
-        headers: {
-            token: data.token,
-        }
-    }).then(hadleMid2Res)
-}
-
-//获取持仓明细
-function getPosition(data){
-    return axios.get(reqUrl.get_position+'/'+data.assetId,{
-        headers: {
-            token: data.token,
-        }
-    }).then(hadleMid2Res)
-}
-
-//获取成交记录
-function getDealInfo(data){
-    return axios.get(reqUrl.get_deal_info+'/'+data.assetId,{
-        headers: {
-            token: data.token,
-        }
-    }).then(hadleMid2Res)
-}
-
-//获取出入金
-function getFunds(data){
-    return axios.post(reqUrl.funds,{
-        assetId: data.assetId
-    },{
-        headers: {
-            token: data.token
-        }
-    }).then(hadleMid2Res)
-}
-
-//下单
-function reqPlaceOrder(data){
-    return axios.post(reqUrl.req_place_order, {
-        reqData: data.ReqData, entrustBase: data.EntrustBase
-    },{
-        headers: {
-            token: data.token
-        }
-    }).then(handleMid)
-}
-
-//在其他地方登陆
-function getOtherLogin(data){
-    return axios.post(reqUrl.other_login,{},{
-        headers: {
-            token: data.token
-        }
-    }).then(handleMid)
-}
-
 export {
     getBaseData,
     getExchangeData,
     getCommodityData,
     getContractData,
-    getExchangeInfo,
-    getMarketInfo,
-    getProductInfo,
     getSnapshot,
     RESOLUTIONS,
     KLINE_TYPE,
-    getKlineData,
-    reqLogin,
-    getCode,
-    getEntrust,
-    getPosition,
-    getDealInfo,
-    getOtherLogin,
-    reqPlaceOrder,
-    getFunds
+    getKlineData
 }
