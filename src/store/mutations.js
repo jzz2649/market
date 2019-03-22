@@ -1,6 +1,15 @@
 import { local, isDef } from '@/shared/util'
 
 const mutations = {
+    updateGetway(state, value){
+        if(isDef(value)){
+            local.set('getway', value);
+            state.getway = value;
+        }else {
+            local.remove('getway');
+            state.getway = null;
+        }
+    },
     updateIp(state, value){
         if(isDef(value)){
             local.set('ip', value);

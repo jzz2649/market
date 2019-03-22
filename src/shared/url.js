@@ -34,9 +34,9 @@ function updateUrl(options){
     }
 }
 
-updateUrl({
-    host: 'deapi.xtrader.com.cn'
-});
+// updateUrl({
+//     host: 'deapi.xtrader.com.cn'
+// });
 
 export {
     reqUrl,

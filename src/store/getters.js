@@ -1,4 +1,7 @@
 const getters = {
+    getway: (state) => {
+        return state.getway;
+    },
     ip: (state) => {
         return state.ip;
     },

@@ -45,7 +45,8 @@ export default {
     ...mapGetters([
       'ip',
       'port1',
-      'port2'
+      'port2',
+      'getway'
     ])
   },
   data() {
@@ -61,14 +62,15 @@ export default {
     this.cacheInfo = Object.create(null);
   },
   mounted() {
-    if(isUndef(this.ip)||isUndef(this.port1)||isUndef(this.port2)){
+    if(isUndef(this.ip)||isUndef(this.port1)||isUndef(this.port2)||isUndef(this.getway)){
         this.$router.replace('/');
         return;
     }
     updateUrl({
         ip: this.ip,
         port1: this.port1,
-        port2: this.port2
+        port2: this.port2,
+        host: this.getway
     })
     this.socket = new Socket({
         url: reqUrl.WS_URL
@@ -145,7 +147,7 @@ export default {
       for (let i = list.length - 1; i >= 0; i--) {
         const item = list[i];
         const key = item.marketName + "-" + item.kindCode;
-        const codes = set1[key];
+        const codes = set1[key]||[];
         const code = item.contractCode;
         const curData = set[key];
         if (codes.includes(code)) {
