@@ -1,9 +1,8 @@
-import { local } from '@/shared/util'
+import { local, jsonParse } from '@/shared/util'
 const state = {
     activeMarket:'',
-    ip: local.get('ip'),
-    port1: local.get('port1'),
-    port2: local.get('port2')
+    hostList: jsonParse(local.get('hostList'))||[],
+    hostKey: local.get('hostKey')&&Number(local.get('hostKey'))
 };
 
 export default state;

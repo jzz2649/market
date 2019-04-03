@@ -1,12 +1,9 @@
 const getters = {
-    ip: (state) => {
-        return state.ip;
+    hostList: (state) => {
+        return state.hostList;
     },
-    port1: (state) => {
-        return state.port1;
-    },
-    port2: (state) => {
-        return state.port2;
+    hostKey: (state) => {
+        return state.hostKey;
     }
 };
   

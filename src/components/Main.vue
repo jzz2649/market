@@ -42,9 +42,8 @@ export default {
   },
   computed:{
     ...mapGetters([
-      'ip',
-      'port1',
-      'port2'
+      'hostList',
+      'hostKey'
     ])
   },
   data() {
@@ -60,14 +59,25 @@ export default {
     this.cacheInfo = Object.create(null);
   },
   mounted() {
-    if(isUndef(this.ip)||isUndef(this.port1)||isUndef(this.port2)){
-        this.$router.replace('/');
-        return;
+    if(isUndef(this.hostKey)){
+      this.$router.replace('/');
+      return;
     }
+    let item = null;
+    this.hostList.forEach(host=>{
+      if(host.key===this.hostKey){
+        item = host;
+      }
+    })
+    if(isUndef(item)){
+      this.$router.replace('/');
+      return;
+    }
+    const { ip, port1, port2} = item;
     updateUrl({
-        ip: this.ip,
-        port1: this.port1,
-        port2: this.port2
+        ip,
+        port1,
+        port2
     })
     this.socket = new Socket({
         url: reqUrl.WS_URL
@@ -88,7 +98,7 @@ export default {
     this.cache = Object.create(null);
 
     this.klineQuequ = []; //保存一段时间websocket推送;
-    const FRESHEN_TIME = 200;//多久才刷新一次数据
+    const FRESHEN_TIME = 800;//多久才刷新一次数据
     this.handleKlineQ = throttleQuequ(list => {
       this.subData = list;
     }, FRESHEN_TIME);
@@ -138,16 +148,18 @@ export default {
       for (let item of data[1]) {
         const key = item.exchangeNo + "-" + item.commodityNo;
         const obj = set[key];
-        for(let contractNo of item.contractNos){
-          list.push({
-            marketName:item.exchangeNo,
-            kindCode:item.commodityNo,
-            contractCode:contractNo,
-            commodityName: obj.name,
-            commodityType: obj.type,
-            mpc: obj.mpc,
-            tradingContinous: obj.tradingContinous
-          })
+        if(isDef(obj)){
+          for(let contractNo of item.contractNos){
+            list.push({
+              marketName:item.exchangeNo,
+              kindCode:item.commodityNo,
+              contractCode:contractNo,
+              commodityName: obj.name,
+              commodityType: obj.type,
+              mpc: obj.mpc,
+              tradingContinous: obj.tradingContinous
+            })
+          }
         }
       }
       this.infoListLength = list.length;
@@ -180,6 +192,11 @@ export default {
       this.showList = showList;
       this.selectHandle(checkKey);
     });
+  },
+  beforeDestroy(){
+    if(this.socket){
+      this.socket.destroy();
+    }
   },
   methods: {
     message(data) {

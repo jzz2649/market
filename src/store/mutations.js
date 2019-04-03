@@ -1,36 +1,27 @@
 import { local, isDef } from '@/shared/util'
 
 const mutations = {
-    updateIp(state, value){
-        if(isDef(value)){
-            local.set('ip', value);
-            state.ip = value;
-        }else {
-            local.remove('ip');
-            state.ip = null;
-        }
-    },
-    updatePort1(state, value){
-        if(isDef(value)){
-            local.set('port1', value);
-            state.port1 = value;
-        }else {
-            local.remove('port1');
-            state.port1 = null;
-        }
-    },
-    updatePort2(state, value){
-        if(isDef(value)){
-            local.set('port2', value);
-            state.port2 = value;
-        }else {
-            local.remove('port2');
-            state.port2 = null;
-        }
-    },
     activeMarket(state, value){
         state.activeMarket = value;
-    }    
+    },
+    updateHostList(state, value){
+        if(isDef(value)){
+            local.set('hostList', JSON.stringify(value));
+            state.hostList = value;
+        }else{
+            local.remove('hostList');
+            state.hostList = [];
+        }
+    },
+    updateHostKey(state, value){
+        if(isDef(value)){
+            local.set('hostKey', value);
+            state.hostKey = value;
+        }else {
+            local.remove('hostKey');
+            state.hostKey = null;
+        }
+    }
 }
 
 export default mutations;
